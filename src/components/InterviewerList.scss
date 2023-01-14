@@ -1,6 +1,12 @@
 @import "styles/variables.scss";
 
 .interviewers {
+
+  background-color: $dark-background;
+  box-shadow: 0px 4px 8px rgba($dark-background, 0.5);
+  border-radius: 12px;
+  padding: 1em;
+
   &__header {
     color: $white;
     margin-bottom: 0.5rem;

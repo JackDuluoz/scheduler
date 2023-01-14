@@ -5,7 +5,7 @@ import "components/Application.scss";
 
 // Import DayList Component
 import DayList from "./DayList";
-import InterviewerList from "./InterviewerList";
+import Appointment from "components/Appointment"; 
 
 // Example Components
 // import ExampleComponent from "./examples/ExampleComponent"
@@ -52,13 +52,44 @@ const days = [
   }
 ];
 
-const interviewers = [
-  { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
-  { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
-  { id: 3, name: "Mildred Nazir", avatar: "https://i.imgur.com/T2WwVfS.png" },
-  { id: 4, name: "Cohana Roy", avatar: "https://i.imgur.com/FK8V841.jpg" },
-  { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
-];
+const appointments = {
+  "1": {
+    id: 1,
+    time: "12pm",
+  },
+  "2": {
+    id: 2,
+    time: "1pm",
+    interview: {
+      student: "Lydia Miller-Jones",
+      interviewer: {
+        id: 3,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      }
+    }
+  },
+  "3": {
+    id: 3,
+    time: "2pm",
+  },
+  "4": {
+    id: 4,
+    time: "3pm",
+    interview: {
+      student: "Archie Andrews",
+      interviewer: {
+        id: 4,
+        name: "Cohana Roy",
+        avatar: "https://i.imgur.com/FK8V841.jpg",
+      }
+    }
+  },
+  "5": {
+    id: 5,
+    time: "4pm",
+  }
+};
 
 // A Component is a Javascript Function
 
@@ -85,9 +116,16 @@ function Application(props) {
   // at that point in time. The data can be strings, numbers, arrays, objects, booleans, etc.
 
   //We use state when we want variables or data to change over time or in reaction to user events (eg clicks, form inputs).
-  const [day, setDay] = useState("Monday");
+  const [day, setDay] = useState();
 
-  const [interviewer, setInterviewer] = useState(1)
+  const appointment = Object.values(appointments).map((appointment) => ( 
+
+    <Appointment
+      key={appointment.id}
+      {...appointment}
+    />
+
+  )) 
 
   // Javascript
 
@@ -106,8 +144,8 @@ function Application(props) {
         <nav className="sidebar__menu">
           <DayList
             days={days}
-            day={day}
-            setDay={setDay}
+            value={day}
+            onChange={setDay}
           />
         </nav>
 
@@ -125,11 +163,8 @@ function Application(props) {
 
       <section className="schedule">
 
-        <InterviewerList
-          interviewers={interviewers}
-          setInterviewer={setInterviewer}
-          interviewer={interviewer}
-        />
+        {appointment}
+        <Appointment key="last" time="5pm" />
         
       </section>
 
