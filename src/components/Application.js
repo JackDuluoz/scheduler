@@ -1,95 +1,16 @@
-import React, { useState } from "react";
-
-// Import Application Component Styling
+import React, { useState, useEffect } from "react";
+import axios from 'axios'
 import "components/Application.scss";
-
-// Import DayList Component
 import DayList from "./DayList";
 import Appointment from "components/Appointment"; 
+import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+
+// import getInterview from "helpers/selectors";
 
 // Example Components
 // import ExampleComponent from "./examples/ExampleComponent"
 // import State from "./examples/State";
 // import List from "./examples/List";
-
-// Hard-Coded Day Objects
-// Each item must have a unqiue id key.
-const days = [
-  {
-    id: 1,
-    name: "Monday",
-    spots: 2,
-  },
-  {
-    id: 2,
-    name: "Tuesday",
-    spots: 5,
-  },
-  {
-    id: 3,
-    name: "Wednesday",
-    spots: 2,
-  },
-  {
-    id: 4,
-    name: "Thursday",
-    spots: 3,
-  },
-  {
-    id: 5,
-    name: "Friday",
-    spots: 1,
-  },
-  {
-    id: 6,
-    name: "Saturday",
-    spots: 3,
-  },
-  {
-    id: 7,
-    name: "Sunday",
-    spots: 0,
-  }
-];
-
-const appointments = {
-  "1": {
-    id: 1,
-    time: "12pm",
-  },
-  "2": {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 3,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
-  },
-  "3": {
-    id: 3,
-    time: "2pm",
-  },
-  "4": {
-    id: 4,
-    time: "3pm",
-    interview: {
-      student: "Archie Andrews",
-      interviewer: {
-        id: 4,
-        name: "Cohana Roy",
-        avatar: "https://i.imgur.com/FK8V841.jpg",
-      }
-    }
-  },
-  "5": {
-    id: 5,
-    time: "4pm",
-  }
-};
 
 // A Component is a Javascript Function
 
@@ -99,7 +20,7 @@ const appointments = {
 // Further components get nested in this root component.
 
 // The component/function name starts with a capital letter.
-function Application(props) {
+function Application() {
 
   // Javascript 
 
@@ -116,16 +37,72 @@ function Application(props) {
   // at that point in time. The data can be strings, numbers, arrays, objects, booleans, etc.
 
   //We use state when we want variables or data to change over time or in reaction to user events (eg clicks, form inputs).
-  const [day, setDay] = useState();
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    appointments: {},
+    interviewers: {}
+  });
 
-  const appointment = Object.values(appointments).map((appointment) => ( 
+  const setDay = day => setState({ ...state, day });
 
-    <Appointment
-      key={appointment.id}
-      {...appointment}
-    />
+  useEffect(() => {
+    const daysURL = `http://localhost:8001/api/days`;
+    const apptsURL = `http://localhost:8001/api/appointments`;
+    const interviewersURL = `http://localhost:8001/api/interviewers`;
+    Promise.all([
+      axios.get(daysURL),
+      axios.get(apptsURL),
+      axios.get(interviewersURL),
+    ]).then((all) => {
+      let dbDays = all[0].data
+      let dbAppointments = all[1].data
+      let dbInterviewers = all[2].data
+      setState(prev => ({ ...prev, days: dbDays, appointments: dbAppointments, interviewers: dbInterviewers }));
+    });    
+  }, [])
 
-  )) 
+  const dailyAppointments = getAppointmentsForDay(state, state.day)
+
+  const schedule = dailyAppointments.map((appointment) => {
+    const interview = getInterview(state, appointment.interview);
+    return (
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+      />
+    )
+  }) 
+
+  // While useState runs every time the state (data) of a variable changes, useEffect runs every time the page renders. 
+  // useEffect(() => {
+  //   console.log("This useEffect runs on every render.")
+  // })
+
+  // We may not always want useEffect to run on every render--only certain renders.
+
+  // This can be achieved by using a 'dependency array', which is an array that is passed into the useEffect hook
+  // as a second argument.
+  // useEffect(() => {
+  //   console.log("This useEffect runs on the intial render only because of the empty dependency array.")
+  // }, [])
+  //Passing in an empty array means the useEffect hook will only run on the initial page render.
+  //Thereafter, if the state changes, the function will not run.
+
+  // Dependencies in the array pertain to specific state values and tell the useEffect hook to run
+  // only when the state of these specific states change.
+  // useEffect(() => {
+  //   console.log("This useEffect runs on the initial render. Thereafter, it only runs when the state of the dependency 'day' changes.")
+  // }, [day])
+
+  // Example. See commented out button in schedule section in the return statement to test.
+  // const [name, setName] = useState('Michael')
+  // useEffect(() => {
+  //   console.log(`Name changed to: ${name}.`)
+  // }, [name])
+
 
   // Javascript
 
@@ -143,8 +120,8 @@ function Application(props) {
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList
-            days={days}
-            value={day}
+            days={state.days}
+            value={state.day}
             onChange={setDay}
           />
         </nav>
@@ -163,7 +140,15 @@ function Application(props) {
 
       <section className="schedule">
 
-        {appointment}
+        {/* <button onClick={() => {
+          if (name === 'Michael') { setName('Green') }
+          else { setName('Michael') }
+        }}
+        >Change Name
+        </button>
+        <p>{name}</p> */}
+
+        {schedule}
         <Appointment key="last" time="5pm" />
         
       </section>

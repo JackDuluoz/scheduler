@@ -9,7 +9,6 @@ import Show from './Show';
 const Appointment = (props) => {
 
 
-
   return (
 
     <article className="appointment">
