@@ -103,7 +103,6 @@ function Application() {
       .catch((error) => console.log(error))
   }
 
-  
   const schedule = dailyAppointments.map((appointment) => {
 
     const interview = getInterview(state, appointment.interview);
