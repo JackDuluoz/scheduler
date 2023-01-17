@@ -43,7 +43,8 @@ function Application() {
     setState,
     setDay,
     bookInterview,
-    deleteInterview
+    deleteInterview,
+    editInterview
   } = useApplicationData();
 
   useEffect(() => {
@@ -78,6 +79,7 @@ function Application() {
         interviewers={interviewers}
         bookInterview={bookInterview}
         deleteInterview={deleteInterview}
+        editInterview={editInterview}
       />
     )
   })

@@ -70,7 +70,7 @@ const Appointment = (props) => {
       interviewer
     };
     transition(SAVING)
-    props.bookInterview(props.id, interview)
+    props.editInterview(props.id, interview)
       .then(() => {
         transition(SHOW)
       })
