@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import axios from 'axios'
 import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "components/Appointment"; 
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
+import useApplicationData from "hooks/useApplicationData";
 
 // import getInterview from "helpers/selectors";
 
@@ -37,14 +38,13 @@ function Application() {
   // at that point in time. The data can be strings, numbers, arrays, objects, booleans, etc.
 
   //We use state when we want variables or data to change over time or in reaction to user events (eg clicks, form inputs).
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    appointments: {},
-    interviewers: {}
-  });
-
-  const setDay = day => setState({ ...state, day });
+  const {
+    state,
+    setState,
+    setDay,
+    bookInterview,
+    deleteInterview
+  } = useApplicationData();
 
   useEffect(() => {
     const daysURL = `http://localhost:8001/api/days`;
@@ -60,46 +60,10 @@ function Application() {
       let dbInterviewers = all[2].data
       setState(prev => ({ ...prev, days: dbDays, appointments: dbAppointments, interviewers: dbInterviewers }));
     });    
-  }, [])
+  }, [setState])
 
   const dailyAppointments = getAppointmentsForDay(state, state.day)
   const interviewers = getInterviewersForDay(state, state.day);
-
-  const bookInterview = function (id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-    return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
-      .then(() => {
-        setState({
-          ...state,
-          appointments
-        });
-      })
-  }
-
-  const deleteInterview = function (id) { 
-    const appointment = {
-      ...state.appointments[id],
-      interview: null
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-    return axios.delete(`http://localhost:8001/api/appointments/${id}`)
-      .then(() => {
-        setState({
-          ...state,
-          appointments
-        });
-      })
-  }
 
   const schedule = dailyAppointments.map((appointment) => {
 
