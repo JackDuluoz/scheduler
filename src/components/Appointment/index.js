@@ -4,7 +4,7 @@ import "./styles.scss";
 
 import Confirm from './Confirm';
 import Empty from './Empty';
-// import Error from './Error';
+import Error from './Error';
 import Form from './Form';
 import Header from './Header';
 import Show from './Show';
@@ -21,6 +21,8 @@ const Appointment = (props) => {
   const DELETING = "DELETING";
   const EDIT = "EDIT";
   const EMPTY = "EMPTY";
+  const ERROR_DELETE = "ERROR_DELETE";
+  const ERROR_SAVE = "ERROR_SAVE";
   const SAVING = "SAVING";
   const SHOW = "SHOW"; 
 
@@ -33,11 +35,14 @@ const Appointment = (props) => {
       student: name,
       interviewer
     };
-    transition(SAVING)
+    transition(SAVING)    
     props.bookInterview(props.id, interview)
       .then(() => {
         transition(SHOW)
-    })    
+      })
+      .catch(() => {
+        transition(ERROR_SAVE, true)
+      })
   }
 
   const confirm = function () {
@@ -50,6 +55,9 @@ const Appointment = (props) => {
       .then(() => {
         transition(EMPTY)
       }) 
+      .catch(() => {
+        transition(ERROR_DELETE, true)
+      })
   }
 
   const edit = function () {
@@ -66,6 +74,9 @@ const Appointment = (props) => {
       .then(() => {
         transition(SHOW)
       })
+      .catch(() => {
+        transition(ERROR_SAVE, true)
+    })
   }
 
   return (
@@ -120,11 +131,20 @@ const Appointment = (props) => {
           onConfirm={deleteAppt}
         />
       )}
-
+      {mode === ERROR_SAVE && (
+        <Error
+          message={"Could not save appointment."}
+          onClose={() => back()}
+        />
+      )}
+      {mode === ERROR_DELETE && (
+        <Error
+          message={"Could not delete appointment."}
+          onClose={() => back()}
+        />
+      )}
     </article>
-
   );
-
 }
  
 export default Appointment;

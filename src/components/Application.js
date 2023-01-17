@@ -81,7 +81,6 @@ function Application() {
           appointments
         });
       })
-      .catch((error) => console.log(error))
   }
 
   const deleteInterview = function (id) { 
@@ -100,7 +99,6 @@ function Application() {
           appointments
         });
       })
-      .catch((error) => console.log(error))
   }
 
   const schedule = dailyAppointments.map((appointment) => {
