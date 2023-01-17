@@ -64,6 +64,27 @@ function Application() {
 
   const dailyAppointments = getAppointmentsForDay(state, state.day)
   const interviewers = getInterviewersForDay(state, state.day);
+
+  const bookInterview = function (id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
+      .then((response) => {
+        console.log("Application", response)
+        setState({
+          ...state,
+          appointments
+        });
+      })
+      .catch((error) => console.log(error))
+  }
+
   
   const schedule = dailyAppointments.map((appointment) => {
 
@@ -76,6 +97,7 @@ function Application() {
         time={appointment.time}
         interview={interview}
         interviewers={interviewers}
+        bookInterview={bookInterview}
       />
     )
   })
