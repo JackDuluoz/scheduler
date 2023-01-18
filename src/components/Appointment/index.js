@@ -14,8 +14,6 @@ import useVisualMode from 'hooks/useVisualMode';
 
 const Appointment = (props) => {
 
-  // console.log(props.interview)
-
   const CONFIRM = "CONFIRM";
   const CREATE = "CREATE";
   const DELETING = "DELETING";
@@ -31,7 +29,7 @@ const Appointment = (props) => {
   );
 
   const save = function (name, interviewer) {
-    const interview = {
+      const interview = {
       student: name,
       interviewer
     };
@@ -49,7 +47,7 @@ const Appointment = (props) => {
     transition(CONFIRM)
   }  
 
-  const deleteAppt = function () {
+  const deleteAppt = function() {
     transition(DELETING)
     props.deleteInterview(props.id)
       .then(() => {
@@ -107,8 +105,8 @@ const Appointment = (props) => {
       )}
       {mode === EDIT && (
         <Form
-          currentStudent={props.interview.student}
-          currentInterviewer={props.interview.interviewer.id}
+          student={props.interview.student}
+          interviewer={props.interview.interviewer.id}
           interviewers={props.interviewers}
           onSave={editAppt}
           onCancel={() => back()}
