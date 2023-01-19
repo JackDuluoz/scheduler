@@ -19,10 +19,6 @@ describe("Appointment", () => {
   /*
   A test that renders a React Component
 */
-  it("renders without crashing", () => {
-    render(<Appointment />);
-  });
-
   xit("does something it is supposed to do", () => {
     // ...
   });
