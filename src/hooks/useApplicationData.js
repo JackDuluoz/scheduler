@@ -31,10 +31,8 @@ const useApplicationData = function () {
         }
       }
     }
-
     const dayId = getDayId(state.day).id - 1
     const dayObject = state.days[dayId]
-
     const getSpots = function(day) {
       for (let weekday of state.days) {
         if (weekday.name === day) {
@@ -42,19 +40,13 @@ const useApplicationData = function () {
         }
       }
     }
-
     const startingSpots = getSpots(state.day)
-
     const day = {
       ...dayObject,
       spots: startingSpots-1
     }
-
-    if (state.days[dayId]) {
-      state.days[dayId] = day
-    }
-
-    const days = state.days      
+    state.days[dayId] = day
+    const days = [...state.days]    
 
     return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
       .then(() => {       
@@ -85,10 +77,8 @@ const useApplicationData = function () {
         }
       }
     }
-
     const dayId = getDayId(state.day).id - 1
     const dayObject = state.days[dayId]
-
     const getSpots = function (day) {
       for (let weekday of state.days) {
         if (weekday.name === day) {
@@ -96,19 +86,13 @@ const useApplicationData = function () {
         }
       }
     }
-
     const startingSpots = getSpots(state.day)
-
     const day = {
       ...dayObject,
       spots: startingSpots + 1
-    }
-
-    if (state.days[dayId]) {
-      state.days[dayId] = day
-    }
-
-    const days = state.days 
+    }    
+    state.days[dayId] = day
+    const days = [...state.days] 
 
     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then(() => {

@@ -39,16 +39,12 @@ const Appointment = (props) => {
         transition(SHOW)
       })
       .catch(() => {
-        transition(ERROR_SAVE, true)
+        transition(ERROR_SAVE)
       })
-  }
+  } 
 
-  const confirm = function () {
-    transition(CONFIRM)
-  }  
-
-  const deleteAppt = function() {
-    transition(DELETING)
+  const deleteAppt = function () {
+    transition(DELETING, true)
     props.deleteInterview(props.id)
       .then(() => {
         transition(EMPTY)
@@ -56,10 +52,6 @@ const Appointment = (props) => {
       .catch(() => {
         transition(ERROR_DELETE, true)
       })
-  }
-
-  const edit = function () {
-    transition(EDIT)
   }
 
   const editAppt = function (name, interviewer) {
@@ -73,7 +65,7 @@ const Appointment = (props) => {
         transition(SHOW)
       })
       .catch(() => {
-        transition(ERROR_SAVE, true)
+        transition(ERROR_SAVE)
     })
   }
 
@@ -92,8 +84,8 @@ const Appointment = (props) => {
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
-          onEdit={edit}
-          onDelete={confirm}
+          onEdit={() => transition(EDIT)}
+          onDelete={() => transition(CONFIRM)}
         />
       )}
       {mode === CREATE && (

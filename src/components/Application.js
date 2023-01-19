@@ -60,7 +60,7 @@ function Application() {
       let dbAppointments = all[1].data
       let dbInterviewers = all[2].data
       setState(prev => ({ ...prev, days: dbDays, appointments: dbAppointments, interviewers: dbInterviewers }));
-    });    
+    }); 
   }, [setState])
 
   const dailyAppointments = getAppointmentsForDay(state, state.day)
