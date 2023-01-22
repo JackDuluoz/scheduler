@@ -1,32 +1,31 @@
-
-const getAppointmentsForDay = function(state, day) {
-  let appointmentsForDay = []
+const getAppointmentsForDay = function (state, day) {
+  let appointmentsForDay = [];
   for (let weekday of state.days) {
     if (weekday.name === day) {
-      const ids = weekday.appointments
+      const ids = weekday.appointments;
       for (let id of ids) {
         for (let appointment in state.appointments) {
           if (id === Number(appointment)) {
-            appointmentsForDay.push(state.appointments[appointment])
+            appointmentsForDay.push(state.appointments[appointment]);
           }
         }
       }
-    }   
+    }
   }
-  return appointmentsForDay  
-}
+  return appointmentsForDay;
+};
 
-const getInterview = function(state, interview) {
-  let output = {}
+const getInterview = function (state, interview) {
+  let output = {};
   if (!interview) {
-    return null
+    return null;
   }
-  output["student"] = interview.student
+  output["student"] = interview.student;
   output["interviewer"] = state.interviewers[interview.interviewer];
   return output;
-}
+};
 
-const getInterviewersForDay = function(state, day) {
+const getInterviewersForDay = function (state, day) {
   const days = state.days;
   const interviewers = state.interviewers;
   const output = [];
@@ -39,6 +38,6 @@ const getInterviewersForDay = function(state, day) {
     }
   }
   return output;
-}
+};
 
-export { getAppointmentsForDay, getInterview, getInterviewersForDay }
+export { getAppointmentsForDay, getInterview, getInterviewersForDay };

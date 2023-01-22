@@ -13,8 +13,8 @@ describe("Form", () => {
     {
       id: 1,
       name: "Sylvia Palmer",
-      avatar: "https://i.imgur.com/LpaY82x.png"
-    }
+      avatar: "https://i.imgur.com/LpaY82x.png",
+    },
   ];
 
   it("renders without student name if not provided", () => {
@@ -49,7 +49,11 @@ describe("Form", () => {
 
     /* 2. Render the Form with interviewers and the onSave mock function passed as an onSave prop, the name prop should be blank or undefined */
     const { getByText } = render(
-      <Form interviewers={interviewers} onSave={onSave} student="Lydia Miller-Jones" />
+      <Form
+        interviewers={interviewers}
+        onSave={onSave}
+        student="Lydia Miller-Jones"
+      />
     );
 
     /* 3. Click the save button */
@@ -71,7 +75,7 @@ describe("Form", () => {
     expect(onSave).not.toHaveBeenCalled();
 
     fireEvent.change(getByPlaceholderText("Enter Student Name"), {
-      target: { value: "Lydia Miller-Jones" }
+      target: { value: "Lydia Miller-Jones" },
     });
 
     fireEvent.click(getByText("Save"));
@@ -96,7 +100,7 @@ describe("Form", () => {
     fireEvent.click(getByText("Save"));
 
     fireEvent.change(getByPlaceholderText("Enter Student Name"), {
-      target: { value: "Lydia Miller-Jones" }
+      target: { value: "Lydia Miller-Jones" },
     });
 
     fireEvent.click(getByText("Cancel"));

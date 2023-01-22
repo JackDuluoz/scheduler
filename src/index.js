@@ -7,7 +7,4 @@ import "index.scss";
 // Import Application Component
 import Application from "components/Application";
 
-ReactDOM.render(
-  <Application />,
-  document.getElementById("root")
-);
+ReactDOM.render(<Application />, document.getElementById("root"));
