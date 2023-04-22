@@ -5,7 +5,7 @@ import { action } from "@storybook/addon-actions";
 
 import "index.scss";
 
-import Appointment from "components/Appointment/index.js";
+import Appointment from "components/Appointment";
 import Confirm from "components/Appointment/Confirm";
 import Empty from "components/Appointment/Empty";
 import Error from "components/Appointment/Error";
