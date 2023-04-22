@@ -1,6 +1,6 @@
 # Interview Scheduler
 
-**Scheduler is a single-page React application that allows students to book and cancel interviews with mentors.**
+**Scheduler is a single-page React app that allows students to book and cancel interviews with mentors.**
 
 The application comes with a variety of environments for testing functionality. Components were built and tested using Storybook.
 
