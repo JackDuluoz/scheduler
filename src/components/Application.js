@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-import "components/Application.scss";
-import DayList from "./DayList";
 import Appointment from "components/Appointment";
+import DayList from "./DayList";
+import useApplicationData from "hooks/useApplicationData";
 import {
   getAppointmentsForDay,
   getInterview,
   getInterviewersForDay,
 } from "helpers/selectors";
-import useApplicationData from "hooks/useApplicationData";
+import "components/Application.scss";
 
 function Application() {
   const {
@@ -73,14 +73,7 @@ function Application() {
         <nav className="sidebar__menu">
           <DayList days={state.days} value={state.day} onChange={setDay} />
         </nav>
-
-        <img
-          className="sidebar__lhl sidebar--centered"
-          src="images/lhl.png"
-          alt="Lighthouse Labs"
-        />
       </section>
-
       <section className="schedule">
         {schedule}
         <Appointment key="last" time="5pm" />
