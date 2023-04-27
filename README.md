@@ -66,3 +66,11 @@ npm test
 ```sh
 npm run storybook
 ```
+
+## Author
+
+Michael Green [@michaelgreen](https://github.com/JackDuluoz)
+
+## Acknowledgements
+
+Thanks to all the mentors at Lighthouse Labs who assisted me during this project.
