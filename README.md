@@ -6,6 +6,10 @@ The application comes with a variety of environments for testing functionality. 
 
 ## Project Screenshots
 
+### Responsive Design
+
+!["Day"](./docs/responsive.png)
+
 ### Select Day
 
 !["Day"](./docs/day.gif)
